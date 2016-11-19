@@ -6,6 +6,7 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import requests
 import urllib
+import urllib2
 from cleverbot import Cleverbot
 import re
 
@@ -45,6 +46,50 @@ def handle_command(command, channel):
         are valid commands. If so, then acts on the commands. If not,
         returns back what it needs for clarification.
     """
+
+    # make a string with the request type in it:
+    method = "POST"
+    # create a handler. you can specify different handlers here (file uploads etc)
+    # but we go for the default
+    handler = urllib2.HTTPHandler()
+    # create an openerdirector instance
+    opener = urllib2.build_opener(handler)
+    # build a request
+   # data = urllib.urlencode(dictionary_of_POST_fields_or_None)
+    data =  {
+     "documents": [
+         {
+             "language": "en",
+             "id": "1",
+             "text": "First document"
+         },
+         {
+             "language": "en",
+             "id": "100",
+             "text": "Final document"
+         }
+     ]
+    }
+    data = urllib.urlencode(data)
+
+    request = urllib2.Request(url, data=data)
+    # add any other information you want
+    request.add_header("Content-Type",'application/json')
+    request.add_header("Ocp-Apim-Subscription-Key",'4c0a791d83ef4e5daf5bcbd5813be948')
+    request.add_header("Accept",'application/json')
+
+    # overload the get method function with a small anonymous function...
+  
+    request.get_method = lambda: method
+    # try it; don't forget to catch the result
+   # try:
+   #     connection = opener.open(request)
+   # except urllib2.HTTPError,e:
+   #     connection = e
+
+    response = urllib2.urlopen(request)
+    print response.read()
+
     response = ""
     if command == '':
         pass
