@@ -139,10 +139,10 @@ def handle_command(command, channel, user):
     if 'pcbot' in command and response == "":
         if 'public' in command:
             postPublic = True 
-            publicResponse = "pcbot will post public messages for offensive content."
+            publicResponse = "Pcbot will post public messages for offensive content."         
         elif 'private' in command:
             postPublic = False
-            publicResponse = "pcbot will post private messages for offensive content."
+            publicResponse = "Pcbot will post private messages for offensive content."
         if publicResponse == "":
             publicResponse = cb.ask(re.sub('[^A-Za-z0-9]+', '', command))
 
