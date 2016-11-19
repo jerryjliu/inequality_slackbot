@@ -1,8 +1,10 @@
 import os
 import time
 from slackclient import SlackClient
+from HTMLParser import HTMLParser
+import urllib
 
-os.environ["SLACK_BOT_TOKEN"] = "xoxb-106160578288-HanakpGahNdKhk47zuBZCLzg"
+os.environ["SLACK_BOT_TOKEN"] = "xoxb-106160578288-tUY0kMKhngODu1VbIDh5ldFr"
 os.environ["BOT_ID"] = "U344QH08G"
 
 # starterbot's ID as an environment variable
@@ -15,6 +17,32 @@ EXAMPLE_COMMAND = "do"
 # instantiate Slack & Twilio clients
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 
+# class MyHTMLParser(HTMLParser):
+#     trendingtopics = []
+#     gettext = 0
+#     def handle_starttag(self, tag, attrs):
+#         if tag == 'span':
+#             print("FOUND SPAN: ")
+#             print(attrs)
+#             for kv in attrs:
+#                 if kv[0] == 'class' and kv[1] == 'hottrends-single-trend-title ellipsis-maker-inner':
+#                     self.gettext = 1
+#                     print("FOUND TAG")
+
+#     def handle_endtag(self, tag):
+#         if tag == 'span': 
+#             self.gettext = 0
+
+#     def handle_data(self, data):
+        
+
+# url = "https://www.google.com/trends/hottrends"
+# parser = MyHTMLParser()
+# f = urllib.urlopen(url)
+# parser.feed(f.read())
+# parser.close()
+# print(parser.trendingtopics)
+
 
 def handle_command(command, channel):
     """
@@ -22,13 +50,15 @@ def handle_command(command, channel):
         are valid commands. If so, then acts on the commands. If not,
         returns back what it needs for clarification.
     """
+    if command == '':
+        pass
     # response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
     #            "* command with numbers, delimited by spaces."
     # if command.startswith(EXAMPLE_COMMAND):
     #     response = "Sure...write some more code then I can do that!"
     # slack_client.api_call("chat.postMessage", channel=channel,
     #                       text=response, as_user=True)
-    
+
 
 
 def parse_slack_output(slack_rtm_output):
