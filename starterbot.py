@@ -2,6 +2,8 @@ import os
 import time
 from slackclient import SlackClient
 
+os.environ["SLACK_BOT_TOKEN"] = "xoxb-106160578288-HanakpGahNdKhk47zuBZCLzg"
+os.environ["BOT_ID"] = "U344QH08G"
 
 # starterbot's ID as an environment variable
 BOT_ID = os.environ.get("BOT_ID")
@@ -20,12 +22,13 @@ def handle_command(command, channel):
         are valid commands. If so, then acts on the commands. If not,
         returns back what it needs for clarification.
     """
-    response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
-               "* command with numbers, delimited by spaces."
-    if command.startswith(EXAMPLE_COMMAND):
-        response = "Sure...write some more code then I can do that!"
-    slack_client.api_call("chat.postMessage", channel=channel,
-                          text=response, as_user=True)
+    # response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
+    #            "* command with numbers, delimited by spaces."
+    # if command.startswith(EXAMPLE_COMMAND):
+    #     response = "Sure...write some more code then I can do that!"
+    # slack_client.api_call("chat.postMessage", channel=channel,
+    #                       text=response, as_user=True)
+    
 
 
 def parse_slack_output(slack_rtm_output):
@@ -34,13 +37,13 @@ def parse_slack_output(slack_rtm_output):
         this parsing function returns None unless a message is
         directed at the Bot, based on its ID.
     """
+    print(slack_rtm_output)
     output_list = slack_rtm_output
     if output_list and len(output_list) > 0:
         for output in output_list:
-            if output and 'text' in output and AT_BOT in output['text']:
+            if output and 'text' in output and 'user' in output and output['user'] != BOT_ID:
                 # return text after the @ mention, whitespace removed
-                return output['text'].split(AT_BOT)[1].strip().lower(), \
-                       output['channel']
+                return output['text'], output['channel']
     return None, None
 
 
