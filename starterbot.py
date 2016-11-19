@@ -9,7 +9,8 @@ import urllib
 from cleverbot import Cleverbot
 import re
 
-os.environ["SLACK_BOT_TOKEN"] = "xoxb-106160578288-ZFyazRLXNaqd3ouyvYUHdgfW"
+
+os.environ["SLACK_BOT_TOKEN"] = "xoxb-106160578288-sOXQicblQ2vDSqkqlAr7DaFT"
 
 os.environ["BOT_ID"] = "U344QH08G"
 
@@ -25,16 +26,17 @@ cb = Cleverbot()
 # instantiate Slack & Twilio clients
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 
-trendingtopics = ['Hamilton', 'Western Michigan football', 'Real Madrid', 'Premier League', 'Gwen Ifill', 'Lauren Jauregui', 'Jeff Sessions', 'Sharon Jones', 
-'The Edge of Seventeen', 'Kanye West', 'Nicole Kidman', 'Bruno Mars', 'Latin Grammys']
+trendingtopics = []
 
-# response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36'})
-# soup = BeautifulSoup(source_code, 'html5lib')
-# print(soup.prettify())
-# print(soup.find_all('span'))
-# parser.feed(f.read())
-# parser.close()
-# print(parser.trendingtopics)
+path_to_chromedriver = '/Users/jerryliu/Downloads/chromedriver'
+os.environ["webdriver.chrome.driver"] = path_to_chromedriver
+driver = webdriver.Chrome(path_to_chromedriver)
+url = "https://www.google.com/trends/hottrends"
+driver.get(url)
+spans = driver.find_elements_by_class_name('hottrends-single-trend-title')
+for span in spans:
+    trendingtopics.append(span.text.lower())
+driver.quit()
 
 
 def handle_command(command, channel):
