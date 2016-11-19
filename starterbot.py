@@ -4,7 +4,7 @@ from slackclient import SlackClient
 from HTMLParser import HTMLParser
 import urllib
 
-os.environ["SLACK_BOT_TOKEN"] = "xoxb-106160578288-tUY0kMKhngODu1VbIDh5ldFr"
+os.environ["SLACK_BOT_TOKEN"] = "xoxb-106160578288-dRlnKRijzFq5Ypnx6284kXPH"
 os.environ["BOT_ID"] = "U344QH08G"
 
 # starterbot's ID as an environment variable
