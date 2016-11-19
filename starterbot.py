@@ -6,7 +6,11 @@ import urllib
 from cleverbot import Cleverbot
 import re
 
+<<<<<<< HEAD
 os.environ["SLACK_BOT_TOKEN"] = "xoxb-106160578288-cxJBYlx4Xt9dYmg0vyBFHEiD"
+=======
+os.environ["SLACK_BOT_TOKEN"] = "xoxb-106160578288-dRlnKRijzFq5Ypnx6284kXPH"
+>>>>>>> c39875517889a1460356f5e9f8853a67076477b3
 os.environ["BOT_ID"] = "U344QH08G"
 
 # starterbot's ID as an environment variable
