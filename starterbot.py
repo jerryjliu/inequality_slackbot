@@ -2,9 +2,12 @@ import os
 import time
 from slackclient import SlackClient
 from HTMLParser import HTMLParser
+from selenium import webdriver
+from bs4 import BeautifulSoup
+import requests
 import urllib
 
-os.environ["SLACK_BOT_TOKEN"] = "xoxb-106160578288-tUY0kMKhngODu1VbIDh5ldFr"
+os.environ["SLACK_BOT_TOKEN"] = "xoxb-106160578288-ZFyazRLXNaqd3ouyvYUHdgfW"
 os.environ["BOT_ID"] = "U344QH08G"
 
 # starterbot's ID as an environment variable
@@ -17,28 +20,13 @@ EXAMPLE_COMMAND = "do"
 # instantiate Slack & Twilio clients
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 
-# class MyHTMLParser(HTMLParser):
-#     trendingtopics = []
-#     gettext = 0
-#     def handle_starttag(self, tag, attrs):
-#         if tag == 'span':
-#             print("FOUND SPAN: ")
-#             print(attrs)
-#             for kv in attrs:
-#                 if kv[0] == 'class' and kv[1] == 'hottrends-single-trend-title ellipsis-maker-inner':
-#                     self.gettext = 1
-#                     print("FOUND TAG")
+trendingtopics = ['Hamilton', 'Western Michigan football', 'Real Madrid', 'Premier League', 'Gwen Ifill', 'Lauren Jauregui', 'Jeff Sessions', 'Sharon Jones', 
+'The Edge of Seventeen', 'Kanye West', 'Nicole Kidman', 'Bruno Mars', 'Latin Grammys']
 
-#     def handle_endtag(self, tag):
-#         if tag == 'span': 
-#             self.gettext = 0
-
-#     def handle_data(self, data):
-        
-
-# url = "https://www.google.com/trends/hottrends"
-# parser = MyHTMLParser()
-# f = urllib.urlopen(url)
+# response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36'})
+# soup = BeautifulSoup(source_code, 'html5lib')
+# print(soup.prettify())
+# print(soup.find_all('span'))
 # parser.feed(f.read())
 # parser.close()
 # print(parser.trendingtopics)
@@ -50,14 +38,16 @@ def handle_command(command, channel):
         are valid commands. If so, then acts on the commands. If not,
         returns back what it needs for clarification.
     """
+    response = ""
     if command == '':
         pass
-    # response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
-    #            "* command with numbers, delimited by spaces."
-    # if command.startswith(EXAMPLE_COMMAND):
-    #     response = "Sure...write some more code then I can do that!"
-    # slack_client.api_call("chat.postMessage", channel=channel,
-    #                       text=response, as_user=True)
+    for topic in trendingtopics:
+        if topic in command:
+            url = "http://www.bing.com/news/search?q=%s&qs=n&form=QBNT&pq=hamilton&sc=8-8&sp=-1&sk=&ghc=1" % topic
+            response = "You've stumbled upon a trending topic! Look here: %s" % url
+
+    slack_client.api_call("chat.postMessage", channel=channel,
+                          text=response, as_user=True)
 
 
 
