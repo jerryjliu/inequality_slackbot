@@ -6,8 +6,11 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import requests
 import urllib
+from cleverbot import Cleverbot
+import re
 
 os.environ["SLACK_BOT_TOKEN"] = "xoxb-106160578288-ZFyazRLXNaqd3ouyvYUHdgfW"
+
 os.environ["BOT_ID"] = "U344QH08G"
 
 # starterbot's ID as an environment variable
@@ -16,6 +19,8 @@ BOT_ID = os.environ.get("BOT_ID")
 # constants
 AT_BOT = "<@" + BOT_ID + ">"
 EXAMPLE_COMMAND = "do"
+
+cb = Cleverbot()
 
 # instantiate Slack & Twilio clients
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
@@ -46,9 +51,14 @@ def handle_command(command, channel):
             url = "http://www.bing.com/news/search?q=%s&qs=n&form=QBNT&pq=hamilton&sc=8-8&sp=-1&sk=&ghc=1" % topic
             response = "You've stumbled upon a trending topic! Look here: %s" % url
 
+    # response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
+    #            "* command with numbers, delimited by spaces."
+    # if command.startswith(EXAMPLE_COMMAND):
+    #     response = "Sure...write some more code then I can do that!"
+    if 'pcbot' in command and response == "":
+        response = cb.ask(re.sub('[^A-Za-z0-9]+', '', command))
     slack_client.api_call("chat.postMessage", channel=channel,
                           text=response, as_user=True)
-
 
 
 def parse_slack_output(slack_rtm_output):
