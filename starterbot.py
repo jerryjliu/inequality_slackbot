@@ -138,7 +138,7 @@ def handle_command(command, channel, user):
     publicResponse = ""
     if 'pcbot' in command and response == "":
         if 'public' in command:
-            postPublic = True
+            postPublic = True 
             publicResponse = "pcbot will post public messages for offensive content."
         elif 'private' in command:
             postPublic = False
